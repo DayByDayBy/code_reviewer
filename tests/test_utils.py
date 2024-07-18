@@ -4,7 +4,7 @@ from src.utils import analyse_code
 
 @pytest.fixture
 def sample_code():
-    return"""
+    return """
     def calculate_sum(a,b):
         return a + b
     def calculate_product(a, b):
@@ -14,13 +14,13 @@ def sample_code():
 def test_analyse_code_with_fixture(sample_code):
     result = analyse_code(sample_code)
     assert 'complexity' in result
-    assert 'suggestion' in result 
+    assert 'suggestions' in result 
     assert len(result['suggestions']) > 0
 
 @pytest.fixture
 def mock_llm_response(monkeypatch):
     def mock_get_llm_suggestions(*args, **kwargs):
-        return ["use type hinsts", "add docstrings"]
+        return ["use type hints", "add docstrings"]
     monkeypatch.setattr('src.utils.get_llm_suggestions', mock_get_llm_suggestions)
 
 def test_analyse_code_with_mock_llms(sample_code, mock_llm_response):
